@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+  db_bookmedik:
+    image: mariadb
+    container_name: db_bookmedik
+    volumes:
+      - /opt/bookmedik_db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=bookmedik
+      - MYSQL_USER=bookmedik
+      - MYSQL_PASSWORD=bookmedik
+  bookmedik:
+    image: felgts/bookmedik:v2
+    container_name: bookmedik
+    ports:
+      - "8080:80"
+    environment:
+      - DB_USER=bookmedik
+      - DB_PASS=bookmedik
+      - DB_HOST=db_bookmedik
+      - DB_NAME=bookmedik
+    depends_on:
+      - db_bookmedik
